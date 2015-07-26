@@ -13,7 +13,7 @@
 
 var handler = function(event) {
   var $quoteTweet = event.target, match;
-  while ($quoteTweet) {
+  while ($quoteTweet && $quoteTweet.classList) {
     if ((match = $quoteTweet.classList.contains('QuoteTweet'))) break;
     $quoteTweet = $quoteTweet.parentNode;
   }
