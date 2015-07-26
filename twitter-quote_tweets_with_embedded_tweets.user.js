@@ -18,7 +18,6 @@ var handler = function(event) {
     $quoteTweet = $quoteTweet.parentNode;
   }
   if (!match) return;
-  if ($quoteTweet.classList.contains('__expanded')) return;
 
   var url = $quoteTweet.querySelector('.js-permalink').getAttribute('href');
   GM_xmlhttpRequest({
@@ -26,8 +25,8 @@ var handler = function(event) {
     url: 'https://api.twitter.com/1/statuses/oembed.json?url=' + encodeURIComponent('https://twitter.com' + url),
     onload: (response) => {
       var oembed = JSON.parse(response.responseText);
-      $quoteTweet.innerHTML = oembed.html;
-      $quoteTweet.classList.add('__expanded');
+      $quoteTweet.insertAdjacentHTML('beforebegin', oembed.html);
+      $quoteTweet.remove();
 
       if (document.querySelector('head > script[src="//platform.twitter.com/widgets.js"]')) {
         location.href = 'javascript:twttr.widgets.load()';
