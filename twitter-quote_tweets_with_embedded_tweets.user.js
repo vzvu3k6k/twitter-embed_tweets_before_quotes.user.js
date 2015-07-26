@@ -22,7 +22,7 @@ var handler = function(event) {
   var url = $quoteTweet.querySelector('.js-permalink').getAttribute('href');
   GM_xmlhttpRequest({
     method: 'GET',
-    url: 'https://api.twitter.com/1/statuses/oembed.json?url=' + encodeURIComponent('https://twitter.com' + url),
+    url: 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + encodeURIComponent('https://twitter.com' + url),
     onload: (response) => {
       var oembed = JSON.parse(response.responseText);
       $quoteTweet.insertAdjacentHTML('beforebegin', oembed.html);
