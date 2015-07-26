@@ -29,7 +29,9 @@ var handler = function(event) {
       $quoteTweet.innerHTML = oembed.html;
       $quoteTweet.classList.add('__expanded');
 
-      if (!window.twttr) {
+      if (document.querySelector('head > script[src="//platform.twitter.com/widgets.js"]')) {
+        location.href = 'javascript:twttr.widgets.load()';
+      } else {
         var s = document.createElement('script');
         s.src = '//platform.twitter.com/widgets.js';
         document.head.appendChild(s);
