@@ -18,7 +18,7 @@ var handler = function(event) {
   }
   if (!match) return;
 
-  var insertTweet = function(twttr) {
+  var insertTweet = function() {
     var tweetId = $quoteTweet.querySelector('.js-permalink').dataset.itemId;
     var $target = document.createElement('div');
     $quoteTweet.parentNode.insertBefore($target, $quoteTweet);
@@ -33,7 +33,7 @@ var handler = function(event) {
     s.src = '//platform.twitter.com/widgets.js';
     document.head.appendChild(s);
   } else {
-    insertTweet(window.twttr);
+    insertTweet();
   }
 
   event.stopPropagation();
