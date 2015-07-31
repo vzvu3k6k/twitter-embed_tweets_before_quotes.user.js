@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name           Twitter: Quote Tweets with Embedded Tweets
-// @description    Inserts the oembed content when you click a quoted tweet snippet
+// @description    Inserts the embedded tweet when you click a quoted tweet snippet
 // @version        1.0
 // @author         vzvu3k6k
 // @match          https://twitter.com/*
-// @grant          GM_log
-// @grant          GM_xmlhttpRequest
+// @grant          none
 // @noframes
 // @namespace      http://vzvu3k6k.tk/
 // @license        CC0
@@ -19,24 +18,23 @@ var handler = function(event) {
   }
   if (!match) return;
 
-  var url = $quoteTweet.querySelector('.js-permalink').getAttribute('href');
-  GM_xmlhttpRequest({
-    method: 'GET',
-    url: 'https://api.twitter.com/1/statuses/oembed.json?omit_script=true&url=' + encodeURIComponent('https://twitter.com' + url),
-    onload: (response) => {
-      var oembed = JSON.parse(response.responseText);
-      $quoteTweet.insertAdjacentHTML('beforebegin', oembed.html);
-      $quoteTweet.remove();
+  var insertTweet = function(twttr) {
+    var tweetId = $quoteTweet.querySelector('.js-permalink').dataset.itemId;
+    var $target = document.createElement('div');
+    $quoteTweet.parentNode.insertBefore($target, $quoteTweet);
+    twttr.widgets.createTweet(tweetId, $target);
+  };
 
-      if (document.querySelector('head > script[src="//platform.twitter.com/widgets.js"]')) {
-        location.href = 'javascript:twttr.widgets.load()';
-      } else {
-        var s = document.createElement('script');
-        s.src = '//platform.twitter.com/widgets.js';
-        document.head.appendChild(s);
-      }
-    },
-  });
+  if (!window.twttr) {
+    // insertTweet is called when widgets.js is loaded
+    window.twttr = {_e: [insertTweet]};
+
+    var s = document.createElement('script');
+    s.src = '//platform.twitter.com/widgets.js';
+    document.head.appendChild(s);
+  } else {
+    insertTweet(window.twttr);
+  }
 
   event.stopPropagation();
 };
