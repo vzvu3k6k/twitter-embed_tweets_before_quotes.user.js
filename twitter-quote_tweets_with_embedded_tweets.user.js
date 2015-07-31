@@ -18,6 +18,11 @@ var handler = function(event) {
   }
   if (!match) return;
 
+  // Abort if embedded tweet has been already inserted
+  var $prevSib = $quoteTweet.previousElementSibling;
+  if ($prevSib.dataset.twttrId &&
+      $prevSib.dataset.twttrId.indexOf('twttr-sandbox-') != -1) return;
+
   var insertTweet = function() {
     var tweetId = $quoteTweet.querySelector('.js-permalink').dataset.itemId;
     var $target = document.createElement('div');
