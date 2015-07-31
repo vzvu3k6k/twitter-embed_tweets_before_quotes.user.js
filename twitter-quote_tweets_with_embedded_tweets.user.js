@@ -18,6 +18,13 @@ var handler = function(event) {
   }
   if (!match) return;
 
+  // An embedded tweet is blanked after expanding a tweet container
+  // or pjax page transition.
+  // So, we remove blanked embedded tweets here.
+  Array.from($quoteTweet.parentNode.querySelectorAll('.twitter-tweet-rendered'))
+    .filter((node) => node.contentDocument.body.childElementCount == 0)
+    .forEach((node) => node.parentNode.remove());
+
   // Abort if embedded tweet has been already inserted
   var $prevSib = $quoteTweet.previousElementSibling;
   if ($prevSib.dataset.twttrId &&
