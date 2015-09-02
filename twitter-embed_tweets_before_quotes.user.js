@@ -14,6 +14,8 @@
 /* global twttr */
 
 var handler = function (event) {
+  if (event.button !== 0) return
+
   var $quoteTweet = event.target
   var match
   while ($quoteTweet && $quoteTweet.classList) {
@@ -56,6 +58,7 @@ var handler = function (event) {
   }
 
   event.stopPropagation()
+  event.preventDefault()
 }
 
 window.addEventListener('click', handler, true)
