@@ -29,13 +29,16 @@ var handler = function (event) {
     .filter((node) => node.contentDocument.body.childElementCount === 0)
     .forEach((node) => node.parentNode.remove())
 
+  var tweetId = $quoteTweet.querySelector('.js-permalink').dataset.itemId
+
   // Abort if embedded tweet has been already inserted
-  var $prevSib = $quoteTweet.previousElementSibling
-  if ($prevSib.dataset.twttrId &&
-      $prevSib.dataset.twttrId.indexOf('twttr-sandbox-') !== -1) return
+  try {
+    var $prevSib = $quoteTweet.previousElementSibling
+    var $prevSibChild = $prevSib.firstElementChild
+    if ($prevSibChild.dataset.tweetId === tweetId) return
+  } catch (e) {}
 
   var insertTweet = function () {
-    var tweetId = $quoteTweet.querySelector('.js-permalink').dataset.itemId
     var $target = document.createElement('div')
     $quoteTweet.parentNode.insertBefore($target, $quoteTweet)
     twttr.widgets.createTweet(tweetId, $target)
