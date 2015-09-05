@@ -11,7 +11,6 @@
 // ==/UserScript==
 
 /* js-standard-style (https://github.com/feross/standard) */
-/* global twttr */
 
 var handler = function (event) {
   if (event.button !== 0) return
@@ -43,7 +42,7 @@ var handler = function (event) {
   var insertTweet = function () {
     var $target = document.createElement('div')
     $quoteTweet.parentNode.insertBefore($target, $quoteTweet)
-    twttr.widgets.createTweet(tweetId, $target)
+    window.twttr.widgets.createTweet(tweetId, $target)
   }
 
   if (!window.twttr) {
