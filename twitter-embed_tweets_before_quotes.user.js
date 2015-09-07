@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Twitter: Embed Tweets before Quotes
 // @description    Inserts the embedded tweet when you click a quoted tweet snippet
-// @version        1.0
+// @version        1.1
 // @author         vzvu3k6k
 // @match          https://twitter.com/*
 // @grant          none
